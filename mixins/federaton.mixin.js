@@ -6,9 +6,8 @@ module.exports = {
 		const params = [config._id, config.numberOfNodes];
 		const args = ["--federation-id", "--nodes"];
 
-		const cmdArgsString = args.map((arg, idx) => [arg, params[idx]].join("=")).join(" ");
-		const cmdString = ["./bootstrap-scripts/create_federation.sh", cmdArgsString].join(" ");
-		const result = await shellCommandExecutor.executeCommand(cmdString);
+		const cmd = "./bootstrap-scripts/create_federation.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (!result.error) {
 			console.log(`Created config directory for federation with id: ${config._id}`);
 			console.log(result.output);
@@ -19,9 +18,8 @@ module.exports = {
 	},
 
 	async getConnectionInfo(federationId) {
-		const cmdArgs = ["--federation-id", federationId].join("=");
-		const cmdString = ["./bootstrap-scripts/get_connection_info.sh", cmdArgs].join(" ");
-		const result = await shellCommandExecutor.executeCommand(cmdString);
+		const cmd = "./bootstrap-scripts/get_connection_info.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, [ "--federation-id" ], [ federationId ]);
 		if (!result.error) {
 			return result.output;
 		}

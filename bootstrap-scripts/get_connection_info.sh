@@ -12,4 +12,4 @@ while [ $# -gt 0 ]; do
 done
 
 FEDERATION_DIR="$TENANTS_DIR/$federation_id"
-$FM_BIN_DIR/fedimint-cli --workdir "$FEDERATION_DIR" connect-info | jq -r
+$FM_BIN_DIR/fedimint-cli --workdir "$FEDERATION_DIR/heimdall-1" connect-info | jq -r

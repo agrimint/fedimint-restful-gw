@@ -6,9 +6,8 @@ module.exports = {
 		const params = [config.federationId, config.node, config.name, config.pinCode];
 		const args = ["--federation-id", "--node", "--name", "--secret"];
 
-		const cmdArgsString = args.map((arg, idx) => [arg, params[idx]].join("=")).join(" ");
-		const cmdString = ["./bootstrap-scripts/create_guardian_cert.sh", cmdArgsString].join(" ");
-		const result = await shellCommandExecutor.executeCommand(cmdString);
+		const cmd = "./bootstrap-scripts/create_guardian_cert.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (!result.error) {
 			console.log(`Created config directory for guardian with id: ${config._id}`);
 			console.log(result.output);
@@ -22,9 +21,8 @@ module.exports = {
 		const params = [config.federationId, config.federationName, config.node, config.pinCode];
 		const args = ["--federation-id", "--federation-name", "--node", "--secret"];
 
-		const cmdArgsString = args.map((arg, idx) => [arg, params[idx]].join("=")).join(" ");
-		const cmdString = ["./bootstrap-scripts/exchange_keys.sh", cmdArgsString].join(" ");
-		const result = await shellCommandExecutor.executeCommand(cmdString);
+		const cmd = "./bootstrap-scripts/exchange_keys.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (!result.error) {
 			console.log(`Initiated key exchange for guardian with id: ${config.node}`);
 			console.log(result.output);
@@ -38,9 +36,8 @@ module.exports = {
 		const params = [config.federationId, config.node, config.pinCode];
 		const args = ["--federation-id", "--node", "--secret"];
 
-		const cmdArgsString = args.map((arg, idx) => [arg, params[idx]].join("=")).join(" ");
-		const cmdString = ["./bootstrap-scripts/start_federation_guardian_daemon.sh", cmdArgsString].join(" ");
-		const result = await shellCommandExecutor.executeCommand(cmdString);
+		const cmd = "./bootstrap-scripts/start_federation_guardian_daemon.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (!result.error) {
 			console.log(`Starting guardian daemoon with node id: ${config.node}`);
 			console.log(result.output);

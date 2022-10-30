@@ -20,6 +20,13 @@ done
 FEDERATION_DIR="$TENANTS_DIR/$federation_id"
 NODE_ID="heimdall-$node"
 
-nix-shell "$FM_ROOT/flake.nix" && nix develop
+FM_PID_FILE="$FEDERATION_DIR/$federation_id-node$node.pid"
 
-($FM_BIN_DIR/fedimintd $FEDERATION_DIR/$NODE_ID "$secret" 2>&1 &)
+nix-shell "$FM_ROOT/flake.nix" && nix develop
+((($FM_BIN_DIR/fedimintd $FEDERATION_DIR/$NODE_ID "$secret" 2>&1 & echo $! >&3) 3>>$FM_PID_FILE))
+
+# wait for awhile and make sure the daemon has started
+sleep 15
+if $(test -d /proc/`cat "$FM_PID_FILE"`); then
+  exit 0
+fi

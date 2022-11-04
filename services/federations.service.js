@@ -6,8 +6,11 @@ const FederationMixin = require("../mixins/federaton.mixin");
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
+const BASE_PORT = 10000;
+
 module.exports = {
 	name: "federations",
+
 
 	mixins: [DbMixin("federations"), FederationMixin],
 
@@ -16,10 +19,17 @@ module.exports = {
 			"_id",
 			"name",
 			"nodes"
-		],
+		]
 	},
 
 	hooks: {
+		before: {
+			async create(ctx) {
+				const federationsCount = await this.adapter.count();
+				ctx.params.basePort = BASE_PORT + federationsCount * 10 + federationsCount;
+				return ctx;
+			}
+		},
 		after: {
 			async create(ctx, res) {
 				await FederationMixin.setUpFederation(res);

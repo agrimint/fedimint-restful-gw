@@ -4,8 +4,8 @@ const shellCommandExecutor = require("../mixins/shell_command_executor.mixin");
 module.exports = {
 
 	async setUpFederation(config) {
-		const params = [config._id, config.nodes];
-		const args = ["--federation-id", "--nodes"];
+		const params = [config._id, config.nodes, config.basePort];
+		const args = ["--federation-id", "--nodes", "--federation-base-port"];
 
 		const cmd = "./bootstrap-scripts/create_federation.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);

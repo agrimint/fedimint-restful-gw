@@ -27,9 +27,9 @@
  */
 module.exports = {
 	// Namespace of nodes to segment your nodes on the same network.
-	namespace: "",
+	namespace: "Fedimint-RESTful-GW",
 	// Unique node identifier. Must be unique in a namespace.
-	nodeID: null,
+	nodeID: "heimdall@gw",
 	// Custom metadata store. Store here what you want. Accessing: `this.broker.metadata`
 	metadata: {},
 

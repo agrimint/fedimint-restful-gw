@@ -6,7 +6,7 @@ const FederationMixin = require("../mixins/federation.mixin");
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
-const BASE_PORT = 10000;
+const BASE_PORT = 4000;
 
 module.exports = {
 	name: "federations",

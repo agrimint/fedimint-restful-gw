@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "My Moleculer-based microservices project",
   "scripts": {
-    "dev": "moleculer-runner --repl --hot services/**/*.service.js",
-    "start": "moleculer-runner",
+    "dev": "moleculer-runner --hot services/**/*.service.js",
+    "start": "moleculer-runner --instances=1 services",
     "cli": "moleculer connect NATS",
     "ci": "jest --watch",
     "test": "jest --coverage",
@@ -30,7 +30,8 @@
     "moleculer-db": "^0.8.19",
     "moleculer-db-adapter-mongo": "^0.4.15",
     "moleculer-web": "^0.10.4",
-    "nats": "^2.9.0"
+    "nats": "^2.9.0",
+    "pm2": "^5.2.2"
   },
   "engines": {
     "node": ">= 12.x.x"

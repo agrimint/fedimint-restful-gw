@@ -15,7 +15,7 @@ module.exports = {
 		fields: [
 			"_id",
 			"name",
-			"numberOfNodes"
+			"nodes"
 		],
 	},
 

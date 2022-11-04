@@ -16,16 +16,17 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 			"_id",
 			"name",
 			"node",
-			"federationId",
-			"pinCode"
+			"federationId"
 		],
 	},
 
 	hooks: {
-		after: {
-			create(ctx, res) {
-				GuardianMixin.createGuardianCertificate(res);
-				return res;
+		before: {
+			async create(ctx) {
+				await GuardianMixin.createGuardianCertificate(ctx.params);
+				const guardian = ctx.params;
+				delete guardian.secret;
+				return guardian;
 			}
 		}
 	},
@@ -39,7 +40,7 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				id: "string",
 				federationId: "string",
 				node: "number",
-				pinCode: "string"
+				secret: "string"
 			},
 			async handler(ctx) {
 				const federation = await ctx.call("federations.get", { id: ctx.params.federationId} );
@@ -47,7 +48,7 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 					federationId: federation._id,
 					federationName: federation.name,
 					node: ctx.params.node,
-					pinCode: ctx.params.pinCode
+					secret: ctx.params.secret
 				};
 				const result = await GuardianMixin.exchangeCertificate(params);
 				return result;
@@ -60,12 +61,12 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				id: "string",
 				federationId: "string",
 				node: "number",
-				pinCode: "string"
+				secret: "string"
 			},
 			async handler(ctx) {
 				const result = await GuardianMixin.startDaemon(ctx.params);
 				return result;
 			}
-		},
+		}
 	}
 };

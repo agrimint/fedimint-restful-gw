@@ -1,7 +1,7 @@
 "use strict";
 
 const DbMixin = require("../mixins/db.mixin");
-const FederationMixin = require("../mixins/federaton.mixin");
+const FederationMixin = require("../mixins/federation.mixin");
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */

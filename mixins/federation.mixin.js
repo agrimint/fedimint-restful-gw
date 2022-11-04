@@ -1,5 +1,5 @@
 const { MoleculerError } = require("moleculer").Errors;
-const shellCommandExecutor = require("../mixins/shell_command_executor.mixin");
+const shellCommandExecutor = require("./shell_command_executor.mixin");
 
 module.exports = {
 

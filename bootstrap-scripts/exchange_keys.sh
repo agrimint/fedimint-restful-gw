@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source /home/ubuntu/fedimint-rest-gw/bootstrap-scripts/set_env.sh
+source ./bootstrap-scripts/set_env.sh
 
 while [ $# -gt 0 ]; do
   case "$1" in

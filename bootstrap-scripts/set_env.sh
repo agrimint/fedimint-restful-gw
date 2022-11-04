@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-export FM_BIN_DIR="/home/ubuntu/fedimint/target/debug"
-export TENANTS_DIR="/home/ubuntu/tenants/federations"
-export FM_ROOT="/home/ubuntu/fedimint/"
+export FM_ROOT="$FM_LOC"
+export FM_BIN_DIR="$FM_ROOT/target/debug"
+export TENANTS_DIR="../tenants/federations"
+export USE_PUBLIC_IP_ADDR="$USE_PUBLIC_ADDR"
 mkdir -p "$TENANTS_DIR"

@@ -3,13 +3,23 @@ const shellCommandExecutor = require("../mixins/shell_command_executor.mixin");
 
 module.exports = {
 
+	async checkDaemonStarted(federationId, node) {
+		const params = [federationId, node];
+		const args = ["--federation-id", "--node"];
+
+		const cmd = "./bootstrap-scripts/check_daemon_started.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
+		return result;
+	},
+
 	async createGuardianCertificate(config) {
 		const params = [config.federationId, config.node, config.basePort, config.name, config.secret];
 		const args = ["--federation-id", "--node", "--federation-base-port", "--name", "--secret"];
 
 		const cmd = "./bootstrap-scripts/create_guardian_cert.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
-		if (result.error === null) {
+		const check = this.checkDaemonStarted(config.federationId, config.node);
+		if (check.error === null) {
 			console.log(`Created config directory for guardian with node id: ${config.node}, federation id: ${config.federationId}`);
 			console.log(result.output);
 		} else {
@@ -17,7 +27,7 @@ module.exports = {
 			console.error(`Couldn't create config directory for guardian with id: ${config._id}, reason: ${result.errorMessage}`);
 			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
 		}
-		return result;
+		return check;
 	},
 
 	async exchangeCertificate(config) {

@@ -26,7 +26,6 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				await GuardianMixin.createGuardianCertificate(ctx.params);
 				ctx.params;
 				delete ctx.params.secret;
-				return ctx;
 			}
 		}
 	},

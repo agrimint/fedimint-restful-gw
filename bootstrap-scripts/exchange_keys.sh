@@ -34,3 +34,4 @@ CERTS=${CERTS:1}
 guardian_dir="$TENANTS_DIR/$federation_id/heimdall-$node"
 
 $FM_BIN_DIR/distributedgen run --out-dir "$guardian_dir" --federation-name="$federation_name" --certs "$CERTS" --password "$secret" 2>&1 &
+wait

@@ -18,7 +18,8 @@ module.exports = {
 		fields: [
 			"_id",
 			"name",
-			"nodes"
+			"nodes",
+			"basePort"
 		]
 	},
 
@@ -26,7 +27,7 @@ module.exports = {
 		before: {
 			async create(ctx) {
 				const federationsCount = await this.adapter.count();
-				ctx.params.basePort = BASE_PORT + federationsCount * 10 + federationsCount;
+				ctx.params.basePort = BASE_PORT + federationsCount * 100 + federationsCount;
 				return ctx;
 			}
 		},

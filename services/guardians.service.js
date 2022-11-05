@@ -23,7 +23,15 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 	hooks: {
 		before: {
 			async create(ctx) {
-				await GuardianMixin.createGuardianCertificate(ctx.params);
+				const federation = await ctx.call("federations.get", { id: ctx.params.federationId} );
+				const params = {
+					federationId: ctx.params.federationId,
+					node: ctx.params.node,
+					basePort: federation.basePort,
+					name: ctx.params.name,
+					secret: ctx.params.secret
+				};
+				await GuardianMixin.createGuardianCertificate(params);
 				ctx.params;
 				delete ctx.params.secret;
 			}

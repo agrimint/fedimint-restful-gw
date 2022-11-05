@@ -4,8 +4,8 @@ const shellCommandExecutor = require("../mixins/shell_command_executor.mixin");
 module.exports = {
 
 	async createGuardianCertificate(config) {
-		const params = [config.federationId, config.node, config.name, config.secret];
-		const args = ["--federation-id", "--node", "--name", "--secret"];
+		const params = [config.federationId, config.node, config.basePort, config.name, config.secret];
+		const args = ["--federation-id", "--node", "--federation-base-port", "--name", "--secret"];
 
 		const cmd = "./bootstrap-scripts/create_guardian_cert.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);

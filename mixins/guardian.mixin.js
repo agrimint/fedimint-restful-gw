@@ -18,8 +18,7 @@ module.exports = {
 
 		const cmd = "./bootstrap-scripts/create_guardian_cert.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
-		const check = this.checkDaemonStarted(config.federationId, config.node);
-		if (check.error === null) {
+		if (result.error === null) {
 			console.log(`Created config directory for guardian with node id: ${config.node}, federation id: ${config.federationId}`);
 			console.log(result.output);
 		} else {
@@ -27,7 +26,7 @@ module.exports = {
 			console.error(`Couldn't create config directory for guardian with id: ${config._id}, reason: ${result.errorMessage}`);
 			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
 		}
-		return check;
+		return result;
 	},
 
 	async exchangeCertificate(config) {
@@ -52,15 +51,16 @@ module.exports = {
 		const args = ["--federation-id", "--node", "--secret"];
 
 		const cmd = "./bootstrap-scripts/start_federation_guardian_daemon.sh";
-		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
-		if (result.error === null) {
-			console.log(`Starting guardian daemoon with node id: ${config.node}`);
-			console.log(result.output);
+		await shellCommandExecutor.executeCommand(cmd, args, params);
+		const check = await this.checkDaemonStarted(config.federationId, config.node);
+		if (check.error === null) {
+			console.log(`Starting guardian daemon with node id: ${config.node}, federation id ${config.federationId}`);
+			console.log(check.output);
 		} else {
-			console.error(result.error);
-			console.error(`Failed to start guardian daemoon with node id: ${config.node}, reason: ${result.errorMessage}`);
+			console.error(check.error);
+			console.error(`Failed to start guardian daemon with node id: ${config.node}, federation id: ${config.federationId}, reason: ${check.errorMessage}`);
 			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
 		}
-		return result;
+		return check;
 	}
 };

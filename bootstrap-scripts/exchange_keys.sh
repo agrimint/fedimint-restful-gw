@@ -33,5 +33,24 @@ CERTS=${CERTS:1}
 
 guardian_dir="$TENANTS_DIR/$federation_id/heimdall-$node"
 
-$FM_BIN_DIR/distributedgen run --out-dir "$guardian_dir" --federation-name="$federation_name" --certs "$CERTS" --password "$secret" 2>&1 &
-wait
+
+LOG_FILE="$TENANTS_DIR/$federation_id/key-exchange-$node.log"
+LOG_ERROR_FILE="$TENANTS_DIR/$federation_id/key-exchange-$node.error.log"
+
+(
+  exec </dev/null
+  exec >> "$LOG_FILE"
+  exec 2>> "$LOG_ERROR_FILE"
+  exec setsid $FM_BIN_DIR/distributedgen run --out-dir "$guardian_dir" --federation-name="$federation_name" \
+	--certs "$CERTS" --password "$secret"
+) &
+PID=$(echo $!)
+wait $PID
+RESULT=$?
+if [[ $RESULT -ne 0 ]]; then
+	echo "exchange for node $node in federation $federation_id has failed"
+	exit 1
+else
+	echo "exchange for node $node in federation $federation_id has succeded"
+	exit 0
+fi

@@ -57,8 +57,7 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 					node: ctx.params.node,
 					secret: ctx.params.secret
 				};
-				const result = await GuardianMixin.exchangeCertificate(params);
-				return result;
+				await GuardianMixin.exchangeCertificate(params);
 			}
 		},
 
@@ -71,8 +70,7 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				secret: "string"
 			},
 			async handler(ctx) {
-				const result = await GuardianMixin.startDaemon(ctx.params);
-				return result;
+				await GuardianMixin.startDaemon(ctx.params);
 			}
 		}
 	}

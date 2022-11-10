@@ -35,5 +35,19 @@ module.exports = {
 			console.error(`Couldn't create peg in address for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
 			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
 		}
- 	}
+	},
+
+	async getHoldingsInfo(params) {
+		const argsParams = [ params.federationId, params.id];
+		const args = ["--federation-id", "--member-id"];
+		const cmd = "./bootstrap-scripts/get_member_holdings.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
+		if (result.error === null) {
+			return JSON.parse(result.output);
+		} else {
+			console.error(result.error);
+			console.error(`Couldn't fetch holdings info for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
+			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+		}
+	}
 };

@@ -60,7 +60,18 @@ module.exports = {
 				const result = await MembersMixin.createPegInAddress(ctx.params);
 				return result;
 			}
-		}
+		},
 
+		getHoldingsInfo: {
+			rest: "GET /:id/holdings",
+			params: {
+				id: "string",
+				federationId: "string"
+			},
+			async handler(ctx) {
+				const result = await MembersMixin.getHoldingsInfo(ctx.params);
+				return result;
+			}
+		}
 	}
 };

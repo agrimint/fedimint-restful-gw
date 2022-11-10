@@ -50,5 +50,17 @@ module.exports = {
 			}
 		},
 
+		createPegInAddress: {
+			rest: "POST /:id/peg-in-address",
+			params: {
+				id: "string",
+				federationId: "string"
+			},
+			async handler(ctx) {
+				const result = await MembersMixin.createPegInAddress(ctx.params);
+				return result;
+			}
+		}
+
 	}
 };

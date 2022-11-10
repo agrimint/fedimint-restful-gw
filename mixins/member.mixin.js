@@ -1,3 +1,4 @@
+const { MoleculerError } = require("moleculer").Errors;
 const shellCommandExecutor = require("./shell_command_executor.mixin");
 
 module.exports = {
@@ -19,5 +20,20 @@ module.exports = {
 		const cmd = "./bootstrap-scripts/join_federation_member.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
 		return result;
-	}
+	},
+
+	async createPegInAddress(params) {
+		const argsParams = [ params.federationId, params.id];
+		const args = ["--federation-id", "--member-id"];
+
+		const cmd = "./bootstrap-scripts/create_member_peg_in_address.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
+		if (result.error === null) {
+			return JSON.parse(result.output);
+		} else {
+			console.error(result.error);
+			console.error(`Couldn't create peg in address for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
+			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+		}
+ 	}
 };

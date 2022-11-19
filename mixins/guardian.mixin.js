@@ -38,6 +38,7 @@ module.exports = {
 		if (result.error === null) {
 			console.log(`Initiated key exchange for guardian with id: ${config.node}`);
 			console.log(result.output);
+			shellCommandExecutor.executeCommand("./bootstrap-scripts/check_exchange_completed.sh", ["--federation-id"], [config.federationId]);
 		} else {
 			console.error(result.error);
 			console.error(`Failed to exchange keys for guardian with id: ${config.node}, reason: ${result.errorMessage}`);

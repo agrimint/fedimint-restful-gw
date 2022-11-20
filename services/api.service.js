@@ -22,7 +22,7 @@ module.exports = {
 
 		// Global Express middlewares. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Middlewares
 		use: [],
-
+	
 		routes: [
 			{
 				path: "/api",
@@ -48,7 +48,7 @@ module.exports = {
 				autoAliases: true,
 
 				aliases: {
-
+					"POST sms": "ussd.sendSMS"
 				},
 
 				/**

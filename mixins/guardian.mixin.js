@@ -6,7 +6,6 @@ module.exports = {
 	async checkDaemonStarted(federationId, node) {
 		const params = [federationId, node];
 		const args = ["--federation-id", "--node"];
-
 		const cmd = "./bootstrap-scripts/check_daemon_started.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		return result;
@@ -38,7 +37,6 @@ module.exports = {
 		if (result.error === null) {
 			console.log(`Initiated key exchange for guardian with id: ${config.node}`);
 			console.log(result.output);
-			shellCommandExecutor.executeCommand("./bootstrap-scripts/check_exchange_completed.sh", ["--federation-id"], [config.federationId]);
 		} else {
 			console.error(result.error);
 			console.error(`Failed to exchange keys for guardian with id: ${config.node}, reason: ${result.errorMessage}`);
@@ -47,19 +45,21 @@ module.exports = {
 		return result;
 	},
 
-	async startDaemon(config) {
-		const params = [config.federationId, config.node, config.secret];
+	async startDaemon(params) {
+		const argsParams = [params.federationId, params.node, params.secret];
 		const args = ["--federation-id", "--node", "--secret"];
 
 		const cmd = "./bootstrap-scripts/start_federation_guardian_daemon.sh";
-		await shellCommandExecutor.executeCommand(cmd, args, params);
-		const check = await this.checkDaemonStarted(config.federationId, config.node);
+		await shellCommandExecutor.executeCommand(cmd, args, argsParams);
+		const check = await this.checkDaemonStarted(params.federationId, params.node);
 		if (check.error === null) {
-			console.log(`Starting guardian daemon with node id: ${config.node}, federation id ${config.federationId}`);
+			console.log(`Starting guardian daemon with node id: ${params.node}, federation id ${params.federationId}`);
 			console.log(check.output);
+			shellCommandExecutor.executeCommand("./bootstrap-scripts/check_federation_completed.sh",
+				["--federation-id", "--federation-base-port"], [params.federationId, params.basePort]);
 		} else {
 			console.error(check.error);
-			console.error(`Failed to start guardian daemon with node id: ${config.node}, federation id: ${config.federationId}, reason: ${check.errorMessage}`);
+			console.error(`Failed to start guardian daemon with node id: ${params.node}, federation id: ${params.federationId}, reason: ${check.errorMessage}`);
 			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
 		}
 		return check;

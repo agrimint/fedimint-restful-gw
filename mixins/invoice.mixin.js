@@ -20,7 +20,7 @@ module.exports = {
 
 	async payInvoice(params) {
 		const argsParams = [ params.federationId, params.memberId, params.invoice];
-		const args = [ "--federation-id", "--member-id", "--invoice-id"];
+		const args = [ "--federation-id", "--member-id", "--invoice"];
 
 		const cmd = "./bootstrap-scripts/pay_invoice.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);

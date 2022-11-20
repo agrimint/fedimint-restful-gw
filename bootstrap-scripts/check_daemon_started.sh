@@ -17,7 +17,7 @@ done
 FEDERATION_DIR="$TENANTS_DIR/$federation_id"
 NODE_ID="heimdall-$node"
 
-FM_PID_FILE="$FEDERATION_DIR/node-$node.pid"
+FM_PID_FILE="$FEDERATION_DIR/$NODE_ID/node-$node.pid"
 echo "checking node $node started for federation $federation_id..."
 
 # wait for awhile and make sure the daemon has started

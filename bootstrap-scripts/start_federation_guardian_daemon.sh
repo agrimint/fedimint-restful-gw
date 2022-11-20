@@ -20,7 +20,7 @@ done
 FEDERATION_DIR="$TENANTS_DIR/$federation_id"
 NODE_ID="heimdall-$node"
 
-FM_PID_FILE="$FEDERATION_DIR/node-$node.pid"
+FM_PID_FILE="$FEDERATION_DIR/$NODE_ID/node-$node.pid"
 NODE_LOG_FILE="$FEDERATION_DIR/node-$node.log"
 NODE_LOG_ERROR_FILE="$FEDERATION_DIR/node-$node.error.log"
 rm -f $FM_PID_FILE

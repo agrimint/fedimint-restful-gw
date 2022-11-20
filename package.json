@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "My Moleculer-based microservices project",
   "scripts": {
-    "dev": "moleculer-runner --hot services/**/*.service.js",
+    "dev": "moleculer-runner --env --hot services/**/*.service.js",
     "start": "moleculer-runner --instances=1 services",
     "cli": "moleculer connect NATS",
     "ci": "jest --watch",
@@ -25,7 +25,9 @@
     "moleculer-repl": "^0.7.3"
   },
   "dependencies": {
+    "africastalking": "^0.5.7",
     "core-js": "^3.26.0",
+    "dotenv": "^16.0.3",
     "moleculer": "0.14.25",
     "moleculer-db": "^0.8.19",
     "moleculer-db-adapter-mongo": "^0.4.15",

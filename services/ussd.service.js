@@ -227,11 +227,8 @@ module.exports = {
 		requestOTP: {
 			params: {
 				"otpType": {
-					type: {
-						type: "enum",
-						values: Object.values(ENUMS.OTPTypes)
-					},
-
+					type: "enum",
+					values: Object.values(ENUMS.OTPTypes)
 				},
 				"phoneNumber": "string",
 				"countryCode": "string",

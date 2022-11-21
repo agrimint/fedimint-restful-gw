@@ -14,6 +14,10 @@ module.exports = {
 
 	async joinFederation(params) {
 		const connectionInfo = `'${JSON.stringify(params.connectionInfo)}'`;
+		const parsedMembers = connectionInfo.members[0].map(entry => {
+			return (!Number.isNaN(entry)) ? Number(entry) : entry;
+		});
+		connectionInfo.members[0] = parsedMembers;
 		const argsParams = [params.federationId, params.id, connectionInfo];
 		const args = ["--federation-id", "--member-id", "--connection-info"];
 

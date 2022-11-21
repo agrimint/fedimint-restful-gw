@@ -27,11 +27,11 @@ if [ ! -f "$LN_LOCK" ]; then
 
 	GW_CLI="$FM_BIN_DIR/gateway-cli"
 	FEDERATION_CLIENT="$FM_BIN_DIR/fedimint-cli --workdir $FEDERATION_DIR"
-	$GW_CLI --rpcpassword="$ln_secret" generate-config "${HOST_IP_ADDR}:${LN_GW_RPC_PORT}" "$FEDERATION_DIR"
+	$GW_CLI --rpcpassword="$ln_secret" generate-config "${HOST_ADDR}:${LN_GW_RPC_PORT}" "$FEDERATION_DIR"
 
 	$LIGHTNING_DAEMON --dev-fast-gossip --dev-bitcoind-poll=1 --network regtest \
 		--bitcoin-rpcuser=bitcoin --bitcoin-rpcpassword=bitcoin \
-		--lightning-dir="$FEDERATION_DIR/ln" --addr="${HOST_IP_ADDR}:${LN_GW_PORT}" \
+		--lightning-dir="$FEDERATION_DIR/ln" --addr="${HOST_ADDR}:${LN_GW_PORT}" \
 		--plugin="$FM_BIN_DIR/ln_gateway" --fedimint-cfg="$FEDERATION_DIR" &
 
 	until [ -e $FEDERATION_DIR/ln/regtest/lightning-rpc ]; do
@@ -39,5 +39,5 @@ if [ ! -f "$LN_LOCK" ]; then
 	done
 
 	FM_CONNECT_STR="$($FEDERATION_CLIENT connect-info | jq -r '.connect_info')"
-	$GW_CLI --rpcpassword="$ln_secret" --url="${HTTP_SCHEMA}${HOST_IP_ADDR}:${LN_GW_RPC_PORT}" register-fed "$FM_CONNECT_STR"
+	$GW_CLI --rpcpassword="$ln_secret" --url="${HTTP_SCHEMA}${HOST_ADDR}:${LN_GW_RPC_PORT}" register-fed "$FM_CONNECT_STR"
 fi

@@ -21,7 +21,7 @@ while [ $# -gt 0 ]; do
 done
 
 IFS=$'\n'
-node_dirs=($(find $TENANTS_DIR/$federation_id -mindepth 1 -maxdepth 1 -type d))
+node_dirs=($(find $TENANTS_DIR/$federation_id -mindepth 1 -maxdepth 1 -type d -iname 'heimdall*'))
 unset IFS
 
 CERTS=""

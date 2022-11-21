@@ -70,7 +70,14 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				secret: "string"
 			},
 			async handler(ctx) {
-				await GuardianMixin.startDaemon(ctx.params);
+				const federation = await ctx.call("federations.get", { id: ctx.params.federationId} );
+				const params = {
+					node: ctx.params.node,
+					secret: ctx.params.secret,
+					federationId: federation._id,
+					basePort: federation.basePort
+				};
+				await GuardianMixin.startDaemon(params);
 			}
 		}
 	}

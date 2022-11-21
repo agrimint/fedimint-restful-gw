@@ -19,7 +19,13 @@ module.exports = {
 
 		const cmd = "./bootstrap-scripts/join_federation_member.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
-		return result;
+		if (result.error === null) {
+			return JSON.parse(result.output);
+		} else {
+			console.error(result.error);
+			console.error(`Failed to join member with id: ${params.id} to federation ${params.federationId}, reason: ${result.errorMessage}`);
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
+		}
 	},
 
 	async createPegInAddress(params) {
@@ -33,7 +39,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't create peg in address for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 	},
 
@@ -47,7 +53,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't fetch holdings info for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 	}
 };

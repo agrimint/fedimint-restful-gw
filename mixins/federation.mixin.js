@@ -15,7 +15,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't create config directory for federation with id: ${config._id}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 		return result;
 	},
@@ -26,7 +26,7 @@ module.exports = {
 		if (result.error === null) {
 			return result.output;
 		} else {
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 	}
 };

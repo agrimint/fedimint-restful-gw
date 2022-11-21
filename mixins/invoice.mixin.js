@@ -14,7 +14,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't create invoice for member with id: ${params.memberId} in federation ${params.federationId}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 	},
 
@@ -29,7 +29,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't pay invoice with id: ${params.invoice} for member with id: ${params.memberId} in federation ${params.federationId}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 	}
 };

@@ -23,7 +23,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't create config directory for guardian with id: ${config._id}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 		return result;
 	},
@@ -40,7 +40,7 @@ module.exports = {
 		} else {
 			console.error(result.error);
 			console.error(`Failed to exchange keys for guardian with id: ${config.node}, reason: ${result.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
 		return result;
 	},
@@ -60,7 +60,7 @@ module.exports = {
 		} else {
 			console.error(check.error);
 			console.error(`Failed to start guardian daemon with node id: ${params.node}, federation id: ${params.federationId}, reason: ${check.errorMessage}`);
-			throw new MoleculerError("Something went wrong", 500, "Internal Server Error");
+			throw new MoleculerError(check.errorMessage, 500, "Internal Server Error");
 		}
 		return check;
 	}

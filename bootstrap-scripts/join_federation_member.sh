@@ -20,5 +20,5 @@ done
 MEMBER_DIR="$TENANTS_DIR/$federation_id/members/$member_id"
 FM_MEMBER_CLIENT="$FM_BIN_DIR/fedimint-cli --workdir $MEMBER_DIR"
 
-$FM_MEMBER_CLIENT join-federation $connection_info | jq -r
+$FM_MEMBER_CLIENT join-federation "$connection_info" | jq -r
 

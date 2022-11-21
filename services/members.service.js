@@ -44,8 +44,7 @@ module.exports = {
 				connectionInfo: "object"
 			},
 			async handler(ctx) {
-				const result = await MembersMixin.joinFederation(ctx.params);
-				return result;
+				await MembersMixin.joinFederation(ctx.params);
 			}
 		},
 

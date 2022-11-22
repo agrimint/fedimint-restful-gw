@@ -39,5 +39,5 @@ if [ ! -f "$LN_LOCK" ]; then
 	done
 
 	FM_CONNECT_STR="$($FEDERATION_CLIENT connect-info | jq -r '.connect_info')"
-	$GW_CLI --rpcpassword="$ln_secret" --url="${HTTP_SCHEMA}${HOST_ADDR}:${LN_GW_RPC_PORT}" register-fed "$FM_CONNECT_STR"
+	$GW_CLI --rpcpassword="$ln_secret" --address="${HOST_ADDR}:${LN_GW_RPC_PORT}" register-fed "$FM_CONNECT_STR"
 fi

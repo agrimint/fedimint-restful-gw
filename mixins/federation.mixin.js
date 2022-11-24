@@ -28,5 +28,18 @@ module.exports = {
 		} else {
 			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
+	},
+
+	async getPegInAddress(params) {
+		const cmd = "./bootstrap-scripts/get_federation_peg_in_address.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, ["--federation-id"], [params.id]);
+		if (result.error === null) {
+			console.log(`Created config peg-in address for federation with id: ${params.id}`);
+			return JSON.parse(result.output);
+		} else {
+			console.error(result.error);
+			console.error(`Couldn't create peg-in address for federation with id: ${params.id}, reason: ${result.errorMessage}`);
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
+		}
 	}
 };

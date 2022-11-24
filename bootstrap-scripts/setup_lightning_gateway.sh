@@ -14,7 +14,8 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-HTTP_SCHEMA=http://
+sleep 10
+
 FEDERATION_DIR="$TENANTS_DIR/$federation_id"
 LN_LOCK="$FEDERATION_DIR/ln.lock"
 if [ ! -f "$LN_LOCK" ]; then
@@ -22,8 +23,8 @@ if [ ! -f "$LN_LOCK" ]; then
 
 	LN_GW_PORT=$federation_base_port
 	LN_GW_RPC_PORT=$(($LN_GW_PORT+1))
-	LIGHTNING_DAEMON=`which lightningd`
-	ln_secret=`head -c 4096 /dev/urandom | openssl sha256 | cut -b1-256 | awk '{ print $2 }'`
+	LIGHTNING_DAEMON=$(which lightningd)
+	ln_secret=$(head -c 4096 /dev/urandom | openssl sha256 | cut -b1-256 | awk '{ print $2 }')
 
 	GW_CLI="$FM_BIN_DIR/gateway-cli"
 	FEDERATION_CLIENT="$FM_BIN_DIR/fedimint-cli --workdir $FEDERATION_DIR"
@@ -34,7 +35,7 @@ if [ ! -f "$LN_LOCK" ]; then
 		--lightning-dir="$FEDERATION_DIR/ln" --addr="${HOST_ADDR}:${LN_GW_PORT}" \
 		--plugin="$FM_BIN_DIR/ln_gateway" --fedimint-cfg="$FEDERATION_DIR" &
 
-	until [ -e $FEDERATION_DIR/ln/regtest/lightning-rpc ]; do
+	until [ -e "$FEDERATION_DIR"/ln/regtest/lightning-rpc ]; do
 	  sleep 5
 	done
 

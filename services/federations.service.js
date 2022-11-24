@@ -54,5 +54,14 @@ module.exports = {
 			}
 		},
 
+		getPegInAddress: {
+			rest: "POST /:id/peg-in-address",
+			params: {
+				id: "string"
+			},
+			async handler(ctx) {
+				return await FederationMixin.getPegInAddress(ctx.params);
+			}
+		}
 	}
 };

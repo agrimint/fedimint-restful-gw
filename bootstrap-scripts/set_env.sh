@@ -5,6 +5,8 @@ FM_BIN_DIR="$FM_LOC/target/debug"
 TENANTS_DIR="$TENANTS_STORE/tenants/federations"
 USE_PUBLIC_IP_ADDR="$USE_PUBLIC_ADDR"
 BTC_CONFIG_DIR="$TENANTS_STORE/bitcoind"
+BTC_CLI=$(which bitcoin-cli)
+BTC_CLIENT="$BTC_CLI -regtest -rpcuser=bitcoin -rpcpassword=bitcoin"
 
 mkdir -p "$BTC_CONFIG_DIR"
 mkdir -p "$TENANTS_DIR"

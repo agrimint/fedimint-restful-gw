@@ -31,8 +31,7 @@ module.exports = {
 				federationId: "string"
 			},
 			async handler(ctx) {
-				const result = await MembersMixin.createMember(ctx.params);
-				return result;
+				await MembersMixin.createMember(ctx.params);
 			}
 		},
 

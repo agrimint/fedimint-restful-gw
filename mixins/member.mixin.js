@@ -66,7 +66,7 @@ module.exports = {
 	async claimAmount(params) {
 		const argsParams = [ params.federationId, params.id, params.amoutn];
 		const args = ["--federation-id", "--member-id", "--amount"];
-		const cmd = "./bootstrap-scripts/get_member_holdings.sh";
+		const cmd = "./bootstrap-scripts/claim_federation_funds.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
 		if (result.error === null) {
 			return JSON.parse(result.output);

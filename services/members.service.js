@@ -69,6 +69,19 @@ module.exports = {
 				const result = await MembersMixin.getHoldingsInfo(ctx.params);
 				return result;
 			}
+		},
+
+		claimAmount: {
+			rest: "POST /:id/claims",
+			params: {
+				id: "string",
+				federationId: "string",
+				amount: "number"
+			},
+			async handler(ctx) {
+				const result = await MembersMixin.claimAmount(ctx.params);
+				return result;
+			}
 		}
 	}
 };

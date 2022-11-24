@@ -31,8 +31,7 @@ module.exports = {
 				federationId: "string"
 			},
 			async handler(ctx) {
-				const result = await MembersMixin.createMember(ctx.params);
-				return result;
+				await MembersMixin.createMember(ctx.params);
 			}
 		},
 
@@ -68,6 +67,19 @@ module.exports = {
 			},
 			async handler(ctx) {
 				const result = await MembersMixin.getHoldingsInfo(ctx.params);
+				return result;
+			}
+		},
+
+		claimAmount: {
+			rest: "POST /:id/claims",
+			params: {
+				id: "string",
+				federationId: "string",
+				amount: "number"
+			},
+			async handler(ctx) {
+				const result = await MembersMixin.claimAmount(ctx.params);
 				return result;
 			}
 		}

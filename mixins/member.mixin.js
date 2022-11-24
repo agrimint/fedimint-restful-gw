@@ -61,5 +61,19 @@ module.exports = {
 			console.error(`Couldn't fetch holdings info for member with id: ${params._id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
 			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
+	},
+
+	async claimAmount(params) {
+		const argsParams = [ params.federationId, params.id, params.amoutn];
+		const args = ["--federation-id", "--member-id", "--amount"];
+		const cmd = "./bootstrap-scripts/claim_federation_funds.sh";
+		const result = await shellCommandExecutor.executeCommand(cmd, args, argsParams);
+		if (result.error === null) {
+			return JSON.parse(result.output);
+		} else {
+			console.error(result.error);
+			console.error(`Couldn't claim amount for member with id: ${params.id} in federation ${params.federationId}, reason: ${result.errorMessage}`);
+			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
+		}
 	}
 };

@@ -11,13 +11,12 @@ module.exports = {
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (result.error === null) {
 			console.log(`Created config directory for federation with id: ${config._id}`);
-			console.log(result.output);
+			return result;
 		} else {
 			console.error(result.error);
 			console.error(`Couldn't create config directory for federation with id: ${config._id}, reason: ${result.errorMessage}`);
 			throw new MoleculerError(result.errorMessage, 500, "Internal Server Error");
 		}
-		return result;
 	},
 
 	async getConnectionInfo(federationId) {

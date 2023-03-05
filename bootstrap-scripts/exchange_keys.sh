@@ -7,14 +7,14 @@ while [ $# -gt 0 ]; do
     --federation-id=*)
       federation_id="${1#*=}"
       ;;
+	--federation-base-port=*)
+	  federation_base_port="${1#*=}"
+	  ;;
     --node=*)
       node="${1#*=}"
       ;;
 	--secret=*)
 	  secret="${1#*=}"
-	  ;;
-	--federation-name=*)
-	  federation_name="${1#*=}"
 	  ;;
   esac
   shift
@@ -37,12 +37,14 @@ guardian_dir="$TENANTS_DIR/$federation_id/heimdall-$node"
 LOG_FILE="$TENANTS_DIR/$federation_id/key-exchange-$node.log"
 LOG_ERROR_FILE="$TENANTS_DIR/$federation_id/key-exchange-$node.error.log"
 
+node_base_port=$(($federation_base_port+$node*10))
+node_api_port=$(($node_base_port + 1))
 (
   exec </dev/null
   exec >> "$LOG_FILE"
   exec 2>> "$LOG_ERROR_FILE"
-  exec setsid $FM_BIN_DIR/distributedgen run --out-dir "$guardian_dir" --federation-name="$federation_name" \
-	--certs "$CERTS" --password "$secret"
+  exec setsid FM_SECRET="$secret" $FM_BIN_DIR/distributedgen run --bind-p2p "$HOST_ADDR:$node_base_port" \
+	--bind-api "$HOST_ADDR:$node_api_port" --out-dir "$guardian_dir" --certs "$CERTS"
 ) &
 PID=$(echo $!)
 wait $PID

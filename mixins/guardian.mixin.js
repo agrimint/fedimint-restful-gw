@@ -29,14 +29,13 @@ module.exports = {
 	},
 
 	async exchangeCertificate(config) {
-		const params = [config.federationId, config.federationName, config.node, config.secret];
-		const args = ["--federation-id", "--federation-name", "--node", "--secret"];
+		const params = [config.federationId, config.basePort, config.node, config.secret];
+		const args = ["--federation-id", "--federation-base-port", "--node", "--secret"];
 
 		const cmd = "./bootstrap-scripts/exchange_keys.sh";
 		const result = await shellCommandExecutor.executeCommand(cmd, args, params);
 		if (result.error === null) {
 			console.log(`Initiated key exchange for guardian with id: ${config.node}`);
-			console.log(result.output);
 		} else {
 			console.error(result.error);
 			console.error(`Failed to exchange keys for guardian with id: ${config.node}, reason: ${result.errorMessage}`);
@@ -54,7 +53,6 @@ module.exports = {
 		const check = await this.checkDaemonStarted(params.federationId, params.node);
 		if (check.error === null) {
 			console.log(`Starting guardian daemon with node id: ${params.node}, federation id ${params.federationId}`);
-			console.log(check.output);
 			shellCommandExecutor.executeCommand("./bootstrap-scripts/check_federation_completed.sh",
 				["--federation-id", "--federation-base-port"], [params.federationId, params.basePort]);
 		} else {

@@ -53,6 +53,7 @@ const GuardianMixin = require("../mixins/guardian.mixin");
 				const federation = await ctx.call("federations.get", { id: ctx.params.federationId} );
 				const params = {
 					federationId: federation._id,
+					basePort: federation.basePort,
 					federationName: federation.name,
 					node: ctx.params.node,
 					secret: ctx.params.secret
